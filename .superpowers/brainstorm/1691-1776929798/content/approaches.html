@@ -1,0 +1,81 @@
+<h2>实现方案对比</h2>
+<p class="subtitle">为"比奇堡热心市民"博客选择最佳实现路径</p>
+
+<div class="options">
+  <div class="option" data-choice="existing-theme" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>使用现有主题 + 定制修改</h3>
+      <p>选择一个接近经典文学风格的 Hexo 主题（如 NexT、Yelee），进行样式和功能定制</p>
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>快速上线，1-2 天可完成</li>
+            <li>社区支持，文档完善</li>
+            <li>功能插件丰富</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>主题结构限制，定制受限</li>
+            <li>可能需要覆盖大量样式</li>
+            <li>代码冗余，加载较慢</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="custom-theme" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>从零开发自定义主题</h3>
+      <p>完全按照经典文学风格设计，手写 EJS/SASS 模板，集成所有功能</p>
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>完全控制，精确实现设计</li>
+            <li>代码精简，性能最优</li>
+            <li>易于后续维护和扩展</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>开发时间较长，3-5 天</li>
+            <li>需要 EJS/SASS 技能</li>
+            <li>需要自行测试兼容性</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="hybrid" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>轻量主题骨架 + 深度定制（推荐）</h3>
+      <p>使用简洁的主题骨架（如 Apollo、Cactus）作为基础，深度定制样式和功能</p>
+      <div class="pros-cons" style="margin-top: 12px;">
+        <div class="pros">
+          <h4>优点</h4>
+          <ul>
+            <li>平衡速度与定制化，2-3 天</li>
+            <li>主题结构清晰，易于修改</li>
+            <li>学习成本低</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>缺点</h4>
+          <ul>
+            <li>部分功能仍需自行实现</li>
+            <li>文档可能不如大主题完善</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
