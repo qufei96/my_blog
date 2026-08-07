@@ -1,0 +1,71 @@
+<article class="post">
+  <header class="post-header">
+    <h1 class="post-title">
+      <%- page.title %>
+    </h1>
+
+    <div class="post-meta">
+      <span class="post-date">
+        <i class="far fa-calendar-alt"></i>
+        <%= date(page.date, 'YYYY年MM月DD日') %>
+      </span>
+
+      <% if (page.categories.length > 0) { %>
+        <span class="post-category">
+          <i class="far fa-folder"></i>
+          <% page.categories.each(function(category) { %>
+            <%- link_to(category.path, category.name) %>
+          <% }); %>
+        </span>
+      <% } %>
+
+      <% if (page.tags.length > 0) { %>
+        <span class="post-tags">
+          <i class="far fa-tags"></i>
+          <% page.tags.each(function(tag) { %>
+            <%- link_to(tag.path, tag.name) %>
+          <% }); %>
+        </span>
+      <% } %>
+    </div>
+  </header>
+
+  <div class="post-content">
+    <% if (theme.custom.post.enable_toc && page.toc && (page.toc.length > 0 || page.content.length > 2000)) { %>
+      <div class="toc">
+        <h3>目录</h3>
+        <%- page.toc %>
+      </div>
+    <% } %>
+
+    <%- page.content %>
+  </div>
+
+  <footer class="post-footer">
+    <% if (theme.custom.post.enable_share) { %>
+      <div class="post-share">
+        <h3>分享到</h3>
+        <div class="share-buttons">
+          <a href="#" class="share-weibo" title="分享到微博">
+            <i class="fab fa-weibo"></i>
+          </a>
+          <a href="#" class="share-wechat" title="分享到微信">
+            <i class="fab fa-weixin"></i>
+          </a>
+          <a href="#" class="share-twitter" title="分享到Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="share-facebook" title="分享到Facebook">
+            <i class="fab fa-facebook"></i>
+          </a>
+        </div>
+      </div>
+    <% } %>
+
+    <% if (theme.custom.post.enable_comment) { %>
+      <div class="post-comments">
+        <%- partial('_partial/comments') %>
+      </div>
+    <% } %>
+  </footer>
+</article>

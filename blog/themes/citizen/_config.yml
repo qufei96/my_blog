@@ -1,0 +1,178 @@
+# Theme name
+name: citizen
+version: 0.1.0
+description: A minimalist literary style theme for Hexo
+
+# Author
+author: BikiniBottomCitizen
+email: bikinibottom@example.com
+
+# Website
+link: https://github.com/yourname/hexo-theme-citizen
+
+# Directory
+source_dir: source
+public_dir: ../public
+tag_dir: ../tags
+archive_dir: ../archives
+category_dir: ../categories
+
+# Layout settings
+layout:
+  # Main layout
+  layout: layout
+
+  # Page layouts
+  post: post
+  page: page
+  tag: tag
+  category: category
+  archive: archive
+
+  # Special pages
+  index: index
+  search: search
+
+# Site info
+site:
+  title: 比奇堡热心市民
+  subtitle: 记录生活与技术的点滴
+  description: 比奇堡热心市民的个人博客
+  author: 比基堡热心市民
+  language: zh-CN
+  timezone: Asia/Shanghai
+
+# URL settings
+url:
+  url: https://your-domain.com
+  root: /
+  permalink: posts/:title/
+  permalink_defaults: {}
+
+# Writing settings
+writing:
+  new_post_name: :title.md
+  default_layout: post
+  titlecase: false
+  external_link: true
+  filename_case: 0
+  render_drafts: false
+  post_asset_folder: true
+  relative_link: false
+  future: true
+  highlight:
+    enable: true
+    line_number: true
+    auto_detect: false
+    tab_replace: {}
+
+# Pagination
+pagination:
+  per_page: 10
+  pagination_dir: page
+
+# Extensions
+extensions:
+  # themes
+  theme: citizen
+
+  # plugins
+  marked:
+    gfm: true
+    breaks: false
+    pedantic: false
+    sanitize: false
+    smartLists: true
+    smartypants: true
+
+  highlight:
+    enable: true
+    line_number: true
+    auto_detect: false
+    tab_replace: {}
+
+# Custom settings
+custom:
+  # Header settings
+  header:
+    enable_search: true
+    logo_text: 比奇堡热心市民
+
+  # Sidebar settings
+  sidebar:
+    enable_about: true
+    enable_categories: true
+    enable_tags: true
+    enable_archives: true
+    enable_recent_posts: true
+    enable_wechat: false
+
+  # Post settings
+  post:
+    enable_toc: true
+    enable_share: true
+    enable_comment: true
+    enable_reward: false
+
+  # Design settings
+  design:
+    # Colors
+    background: '#fffdf7'
+    text_primary: '#2c2c2c'
+    text_secondary: '#555555'
+    accent: '#8b8680'
+    border: '#c9c4b8'
+    link: '#a0522d'
+
+    # Typography
+    font_family:
+      primary: ['Georgia', 'Source Han Serif SC', serif]
+      secondary: ['Helvetica Neue', 'Arial', sans-serif]
+
+    # Layout
+    layout_width: 1200px
+    content_width: 800px
+    sidebar_width: 300px
+
+    # Breakpoints
+    breakpoints:
+      desktop: 992
+      tablet: 768
+      mobile: 480
+
+# External services
+external:
+  # Comments
+  comment:
+    enable: false
+    type: waline
+    waline:
+      server_url: # Waline server URL
+      placeholder: 欢迎留下您的评论...
+
+  # Analytics
+  analytics:
+    enable_baidu: false
+    baidu_id:
+    enable_google: false
+    google_id:
+
+  # Sharing
+  sharing:
+    enable: true
+    platforms: [weibo, wechat, twitter, facebook]
+
+# Development settings
+development:
+  # Debug mode
+  debug: false
+
+  # Asset compression
+  compress:
+    css: true
+    js: true
+
+  # Cache settings
+  cache:
+    enable: true
+    expire: 7d

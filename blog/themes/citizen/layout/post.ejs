@@ -1,0 +1,27 @@
+<div class="main-content">
+  <%- partial('_partial/article') %>
+
+  <!-- Related Posts -->
+  <div class="related-posts">
+    <h3>相关文章</h3>
+    <div class="related-posts-list">
+      <% if (page.related) { %>
+        <% page.related.slice(0, 3).forEach(function(post) { %>
+          <article class="related-post-item">
+            <h4>
+              <%- link_to(post.path, post.title) %>
+            </h4>
+            <div class="post-date">
+              <%= date(post.date, 'YYYY年MM月DD日') %>
+            </div>
+          </article>
+        <% }); %>
+      <% } else { %>
+        <p>暂无相关文章</p>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<%- partial('_partial/sidebar') %>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="<%= page.lang || config.language %>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= config.title %> <% if (page.title) { %> | <%= page.title %><% } %></title>
+
+  <!-- Meta tags -->
+  <meta name="description" content="<%= config.description %>">
+  <meta name="author" content="<%= config.author %>">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= page.title || config.title %>">
+  <meta property="og:description" content="<%= page.description || config.description %>">
+  <meta property="og:site_name" content="<%= config.title %>">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="<%= page.title || config.title %>">
+  <meta name="twitter:description" content="<%= page.description || config.description %>">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico">
+
+  <!-- CSS（由 hexo-renderer-stylus 编译主题 source/css/*.styl 到 public/css/） -->
+  <link rel="stylesheet" href="<%- url_for('/css/style.css') %>">
+  <link rel="stylesheet" href="<%- url_for('/css/responsive.css') %>">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Georgia&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <style>
+    body {
+      background-color: <%= theme.custom.design.background %>;
+      color: <%= theme.custom.design.text_primary %>;
+      font-family: <%= theme.custom.design.font_family.primary %>;
+    }
+    a {
+      color: <%= theme.custom.design.link %>;
+    }
+    .border-color {
+      border-color: <%= theme.custom.design.border %>;
+    }
+    .text-secondary {
+      color: <%= theme.custom.design.text_secondary %>;
+    }
+    .accent-color {
+      color: <%= theme.custom.design.accent %>;
+    }
+  </style>
+
+  <!-- RSS Feed：由 hexo-generator-feed 的 after_render:html 过滤器自动注入 -->
+
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+  <!-- Header -->
+  <%- partial('_partial/header') %>
+
+  <!-- Main Content -->
+  <div class="container">
+    <%- body %>
+  </div>
+
+  <!-- Footer -->
+  <%- partial('_partial/footer') %>
+
+  <!-- Back to Top -->
+  <div id="back-to-top" class="back-to-top hidden">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <!-- JavaScript（主题 source/js/*.js 由 Hexo 复制到 public/js/） -->
+  <script src="<%- url_for('/js/main.js') %>"></script>
+  <script src="<%- url_for('/js/responsive.js') %>"></script>
+
+  <!-- Analytics -->
+  <% if (theme.external.analytics.enable_baidu) { %>
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<%= theme.external.analytics.baidu_id %>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <% } %>
+
+  <% if (theme.external.analytics.enable_google) { %>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= theme.external.analytics.google_id %>"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '<%= theme.external.analytics.google_id %>');
+  </script>
+  <% } %>
+</body>
+</html>

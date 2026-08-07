@@ -1,0 +1,99 @@
+<aside class="sidebar">
+  <% if (theme.custom.sidebar.enable_about) { %>
+    <div class="widget about">
+      <h3>关于我</h3>
+      <div class="about-content">
+        <div class="avatar-placeholder">
+    <%- image_tag('/images/avatar.PNG', { alt: '比奇堡热心市民', class: 'avatar' }) %>
+  </div>
+        <p>比奇堡热心市民</p>
+        <p>记录生活与技术的点滴</p>
+      </div>
+    </div>
+  <% } %>
+
+  <% if (theme.custom.sidebar.enable_recent_posts) { %>
+    <div class="widget recent-posts">
+      <h3>最新文章</h3>
+      <ul class="recent-posts-list">
+        <% site.posts.sort('date', -1).limit(5).each(function(post) { %>
+          <li>
+            <%- link_to(post.path, post.title) %>
+            <span class="post-date">
+              <%= date(post.date, 'MM-DD') %>
+            </span>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <% if (theme.custom.sidebar.enable_categories) { %>
+    <div class="widget categories">
+      <h3>分类</h3>
+      <ul class="categories-list">
+        <% site.categories.each(function(category) { %>
+          <li>
+            <%- link_to(category.path, category.name) %>
+            <span class="post-count">(<%= category.posts.length %>)</span>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <% if (theme.custom.sidebar.enable_tags) { %>
+    <div class="widget tags">
+      <h3>标签</h3>
+      <div class="tags-cloud">
+        <% site.tags.sort('name').each(function(tag) { %>
+          <%- link_to(tag.path, tag.name, {class: 'tag-cloud-' + Math.min(Math.ceil(tag.posts.length / 3), 5)}) %>
+        <% }); %>
+      </div>
+    </div>
+  <% } %>
+
+  <% if (theme.custom.sidebar.enable_archives) { %>
+    <div class="widget archives">
+      <h3>归档</h3>
+      <ul class="archives-list">
+        <% var yearlyArchives = site.posts.reduce(function(archives, post) { %>
+          <% var year = date(post.date, 'YYYY'); %>
+          <% if (!archives[year]) { %>
+            <% archives[year] = []; %>
+          <% } %>
+          <% archives[year].push(post); %>
+          <% return archives; %>
+        <% }, {}); %>
+
+        <% Object.keys(yearlyArchives).sort().reverse().forEach(function(year) { %>
+          <li>
+            <%- year %>年
+            <ul class="monthly-archives">
+              <% yearlyArchives[year].reduce(function(monthlyArchives, post) { %>
+                <% var month = date(post.date, 'MM'); %>
+                <% var monthName = date(post.date, 'MMMM'); %>
+                <% if (!monthlyArchives[month]) { %>
+                  <% monthlyArchives[month] = []; %>
+                  <li>
+                    <%- link_to(post.path, monthName) %>
+                    <span class="post-count">(<%= monthlyArchives[month].length %>)</span>
+                  </li>
+                <% } %>
+                <% monthlyArchives[month].push(post); %>
+                <% return monthlyArchives; %>
+              <% }, {}); %>
+            </ul>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <% if (theme.custom.sidebar.enable_wechat) { %>
+    <div class="widget wechat">
+      <h3>微信</h3>
+      <img src="<%- url_for('/images/wechat.jpg') %>" alt="微信公众号" class="wechat-qrcode">
+    </div>
+  <% } %>
+</aside>

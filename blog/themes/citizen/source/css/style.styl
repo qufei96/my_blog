@@ -1,0 +1,631 @@
+// Variables
+background = #fffdf7
+text-primary = #2c2c2c
+text-secondary = #555555
+accent = #8b8680
+border = #c9c4b8
+link = #a0522d
+
+layout-width = 1200px
+content-width = 800px
+sidebar-width = 300px
+
+// Base styles
+*
+  margin 0
+  padding 0
+  box-sizing border-box
+
+body
+  font-family 'Georgia', 'Source Han Serif SC', serif
+  font-size 16px
+  line-height 1.8
+  color text-primary
+  background-color background
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+
+// Typography
+h1, h2, h3, h4, h5, h6
+  font-family 'Georgia', 'Source Han Serif SC', serif
+  font-weight normal
+  line-height 1.4
+  margin-bottom 1rem
+
+h1
+  font-size 2.5rem
+
+h2
+  font-size 2rem
+  border-bottom 1px solid border
+  padding-bottom 0.5rem
+  margin 2rem 0 1rem
+
+h3
+  font-size 1.5rem
+  margin 1.5rem 0 0.5rem
+
+h4
+  font-size 1.25rem
+  margin 1rem 0 0.5rem
+
+p
+  margin-bottom 1rem
+  line-height 1.8
+
+a
+  color link
+  text-decoration none
+  transition color 0.3s ease
+
+  &:hover
+    color darken(link, 20%)
+
+img
+  max-width 100%
+  height auto
+  margin 1rem 0
+
+// Code blocks
+code
+  background-color rgba(0, 0, 0, 0.05)
+  padding 0.2rem 0.4rem
+  border-radius 3px
+  font-family 'Consolas', 'Monaco', monospace
+  font-size 0.9rem
+
+pre
+  background-color rgba(0, 0, 0, 0.05)
+  padding 1rem
+  border-radius 5px
+  overflow-x auto
+  margin 1rem 0
+
+  code
+    background none
+    padding 0
+
+// Blockquote
+blockquote
+  border-left 4px solid accent
+  padding-left 1rem
+  margin 1rem 0
+  color text-secondary
+  font-style italic
+
+// Lists
+ul, ol
+  margin-bottom 1rem
+  padding-left 2rem
+
+  li
+    margin-bottom 0.5rem
+
+// Tables
+table
+  width 100%
+  border-collapse collapse
+  margin 1rem 0
+
+  th, td
+    border 1px solid border
+    padding 0.75rem
+    text-align left
+
+  th
+    background-color rgba(139, 134, 128, 0.1)
+    font-weight normal
+
+// Header
+.header
+  background-color white
+  border-bottom 1px solid border
+  position sticky
+  top 0
+  z-index 1000
+  box-shadow 0 2px 4px rgba(0, 0, 0, 0.05)
+
+  .header-inner
+    max-width layout-width
+    margin 0 auto
+    padding 1rem 2rem
+    display flex
+    justify-content space-between
+    align-items center
+
+  .logo
+    font-family 'Georgia', 'Source Han Serif SC', serif
+    font-size 1.5rem
+    color text-primary
+
+  .main-nav
+    display flex
+    gap 2rem
+
+    a
+      color text-primary
+      font-size 1rem
+      position relative
+      padding 0.5rem 0
+
+      &:after
+        content ''
+        position absolute
+        bottom 0
+        left 0
+        width 0
+        height 2px
+        background-color link
+        transition width 0.3s ease
+
+      &:hover
+        color link
+
+        &:after
+          width 100%
+
+  .nav-tools
+    display flex
+    align-items center
+    gap 1rem
+
+    .search-box
+      position relative
+      display none
+
+      &.active
+        display block
+
+      input
+        padding 0.5rem 2.5rem 0.5rem 1rem
+        border 1px solid border
+        border-radius 20px
+        outline none
+        width 200px
+        transition width 0.3s ease
+
+        &:focus
+          width 250px
+
+      button
+        position absolute
+        right 0.5rem
+        top 50%
+        transform translateY(-50%)
+        background none
+        border none
+        color text-secondary
+        cursor pointer
+
+  .menu-toggle
+    display none
+    background none
+    border none
+    color text-primary
+    font-size 1.5rem
+    cursor pointer
+
+// Container
+.container
+  max-width 1400px
+  margin 0 auto
+  padding 2rem
+  width 100%
+
+// Main Content
+.main-content
+  flex 1
+  margin-right sidebar-width
+  max-width: 900px
+
+// Posts
+.post-item
+  background-color white
+  border 1px solid border
+  border-radius 5px
+  padding 1.5rem
+  margin-bottom 1.5rem
+  transition box-shadow 0.3s ease
+
+  &:hover
+    box-shadow 0 4px 12px rgba(0, 0, 0, 0.1)
+
+  .post-title
+    font-size 1.5rem
+    margin-bottom 1rem
+
+    a
+      color text-primary
+      transition color 0.3s ease
+
+      &:hover
+        color link
+
+  .post-meta
+    color text-secondary
+    font-size 0.9rem
+    margin-bottom 1rem
+
+    .post-date,
+    .post-category,
+    .post-tags
+      margin-right 1rem
+
+      i
+        margin-right 0.5rem
+
+  .post-excerpt
+    color text-secondary
+    line-height 1.8
+    margin-bottom 1rem
+
+  .post-read-more
+    a
+      color link
+      font-size 0.9rem
+      display inline-flex
+      align-items center
+      gap 0.5rem
+
+      &:hover
+        text-decoration underline
+
+// Post Content
+.post
+  background-color white
+  border 1px solid border
+  border-radius 5px
+  padding 2rem
+  margin-bottom 2rem
+
+  .post-header
+    margin-bottom 2rem
+
+    .post-title
+      font-size 2.5rem
+      margin-bottom 1rem
+
+    .post-meta
+      color text-secondary
+      font-size 0.9rem
+
+      .post-date,
+      .post-category,
+      .post-tags
+        margin-right 1rem
+
+        i
+          margin-right 0.5rem
+
+  .post-content
+    h1, h2, h3, h4, h5, h6
+      margin 1.5rem 0 0.5rem
+
+    p
+      margin-bottom 1rem
+
+    img
+      margin 1rem 0
+      border-radius 5px
+      box-shadow 0 2px 8px rgba(0, 0, 0, 0.1)
+
+    blockquote
+      padding-left 1.5rem
+      border-left 4px solid accent
+      color text-secondary
+      font-style italic
+      margin 1.5rem 0
+
+    table
+      width 100%
+      border-collapse collapse
+      margin 1.5rem 0
+
+      th, td
+        border 1px solid border
+        padding 0.75rem
+        text-align left
+
+      th
+        background-color rgba(139, 134, 128, 0.1)
+
+    code
+      background-color rgba(0, 0, 0, 0.05)
+      padding 0.2rem 0.4rem
+      border-radius 3px
+      font-family 'Consolas', 'Monaco', monospace
+      font-size 0.9rem
+
+    pre
+      background-color rgba(0, 0, 0, 0.05)
+      padding 1.5rem
+      border-radius 5px
+      overflow-x auto
+      margin 1.5rem 0
+
+      code
+        background none
+        padding 0
+
+    .toc
+      background-color rgba(139, 134, 128, 0.05)
+      padding 1.5rem
+      border-radius 5px
+      margin-bottom 2rem
+
+      h3
+        margin-bottom 1rem
+
+      ul
+        list-style none
+        padding-left 0
+
+        li
+          padding 0.5rem 0
+
+          a
+            color text-primary
+            display block
+
+            &:hover
+              color link
+
+  .post-footer
+    margin-top 3rem
+    padding-top 2rem
+    border-top 1px solid border
+
+    .post-share
+      margin-bottom 2rem
+
+      h3
+        margin-bottom 1rem
+
+      .share-buttons
+        display flex
+        gap 1rem
+
+        a
+          display inline-flex
+          align-items center
+          justify-content center
+          width 40px
+          height 40px
+          border-radius 50%
+          background-color rgba(139, 134, 128, 0.1)
+          color text-primary
+          transition all 0.3s ease
+
+          &:hover
+            background-color link
+            color white
+
+          i
+            font-size 1.2rem
+
+// Sidebar
+.sidebar
+  position sticky
+  top 100px
+  width sidebar-width
+  flex-shrink: 0
+
+  .widget
+    background-color white
+    border 1px solid border
+    border-radius 5px
+    padding 1.5rem
+    margin-bottom 1.5rem
+
+    h3
+      font-size 1.25rem
+      margin-bottom 1rem
+      border-bottom 1px solid border
+      padding-bottom 0.5rem
+
+    .about-content
+      text-align center
+
+      .avatar
+        width 60px
+        height 60px
+        border-radius 50%
+        margin-bottom 1rem
+        border 3px solid border
+
+      p
+        color text-secondary
+        margin-bottom 0.5rem
+
+    .recent-posts-list,
+    .categories-list,
+    .archives-list
+      list-style none
+
+      li
+        padding 0.5rem 0
+        display flex
+        justify-content space-between
+        align-items center
+
+        a
+          color text-primary
+          transition color 0.3s ease
+
+          &:hover
+            color link
+
+    .tag-cloud
+      display flex
+      flex-wrap wrap
+      gap 0.5rem
+
+      .tag-cloud-1
+        font-size 0.8rem
+
+      .tag-cloud-2
+        font-size 1rem
+
+      .tag-cloud-3
+        font-size 1.2rem
+
+      .tag-cloud-4
+        font-size 1.4rem
+
+      .tag-cloud-5
+        font-size 1.6rem
+
+      a
+        display inline-block
+        padding 0.2rem 0.5rem
+        background-color rgba(139, 134, 128, 0.1)
+        border-radius 3px
+        color text-primary
+        transition all 0.3s ease
+
+        &:hover
+          background-color link
+          color white
+
+// Footer
+.footer
+  background-color white
+  border-top 1px solid border
+  padding 3rem 0
+  margin-top 4rem
+
+  .footer-inner
+    max-width layout-width
+    margin 0 auto
+    text-align center
+
+    .copyright,
+    .powered-by
+      color text-secondary
+      font-size 0.9rem
+      margin-bottom 0.5rem
+
+      a
+        color link
+        transition color 0.3s ease
+
+        &:hover
+          color darken(link, 20%)
+
+// Back to Top
+.back-to-top
+  position fixed
+  bottom 30px
+  right 30px
+  width 50px
+  height 50px
+  background-color link
+  color white
+  border-radius 50%
+  display flex
+  align-items center
+  justify-content center
+  cursor pointer
+  opacity 0
+  visibility hidden
+  transition all 0.3s ease
+
+  &.visible
+    opacity 1
+    visibility visible
+
+  &:hover
+    background-color darken(link, 20%)
+
+  i
+    font-size 1.2rem
+
+// Pagination
+.pagination
+  display flex
+  justify-content center
+  align-items center
+  gap 1rem
+  margin 2rem 0
+
+  .prev,
+  .next
+    padding 0.5rem 1rem
+    border 1px solid border
+    border-radius 3px
+    color text-primary
+    transition all 0.3s ease
+
+    &:hover
+      background-color rgba(139, 134, 128, 0.1)
+      border-color link
+
+  .current
+    padding 0.5rem 1rem
+    background-color link
+    color white
+    border-radius 3px
+
+  .disabled
+    opacity 0.5
+    cursor not-allowed
+
+  .dots
+    color text-secondary
+    padding 0 0.5rem
+
+// No Posts
+.no-posts
+  text-align center
+  padding 3rem
+
+  h3
+    color text-secondary
+    margin-bottom 1rem
+
+// Search Results
+.search-results
+  margin-top 2rem
+
+  .search-result-item
+    padding 1rem
+    border-bottom 1px solid border
+
+    &:last-child
+      border-bottom none
+
+    h3
+      margin-bottom 0.5rem
+
+    .search-result-excerpt
+      color text-secondary
+      font-size 0.9rem
+
+// Related Posts
+.related-posts
+  margin-top 3rem
+
+  h3
+    margin-bottom 1.5rem
+
+  .related-posts-list
+    display grid
+    gap 1rem
+
+  .related-post-item
+    background-color white
+    border 1px solid border
+    border-radius 5px
+    padding 1rem
+    transition box-shadow 0.3s ease
+
+    &:hover
+      box-shadow 0 2px 8px rgba(0, 0, 0, 0.1)
+
+    h4
+      font-size 1.1rem
+      margin-bottom 0.5rem
+
+    .post-date
+      color text-secondary
+      font-size 0.9rem

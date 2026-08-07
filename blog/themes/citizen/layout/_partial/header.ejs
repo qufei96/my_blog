@@ -1,0 +1,37 @@
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <%- theme.custom.header.logo_text || '博客标题' %>
+    </div>
+
+    <nav class="main-nav">
+      <%- link_to('/', 'home') %>
+      <% if (page.layout === 'index') { %>
+        <% site.posts.sort('date', -1).limit(10).each(function(post) { %>
+          <%- link_to(post.path, post.title) %>
+        <% }); %>
+      <% } else { %>
+        <% site.pages.each(function(page) { %>
+          <% if (page.title && page.hide !== true) { %>
+            <%- link_to(page.path, page.title) %>
+          <% } %>
+        <% }); %>
+      <% } %>
+    </nav>
+
+    <div class="nav-tools">
+      <% if (theme.custom.header.enable_search) { %>
+        <div class="search-box">
+          <input type="text" id="search-input" placeholder="搜索文章...">
+          <button id="search-button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      <% } %>
+
+      <button class="menu-toggle" id="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </div>
+</header>

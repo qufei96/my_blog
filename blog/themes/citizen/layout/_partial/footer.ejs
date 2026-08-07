@@ -1,0 +1,26 @@
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="copyright">
+      &copy; <%= date(new Date(), 'YYYY') %> - <%= config.author %>
+    </div>
+
+    <div class="powered-by">
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> &
+      <a href="https://github.com/yourname/hexo-theme-citizen" target="_blank">Citizen Theme</a>
+    </div>
+
+    <% if (theme.external.analytics.enable_baidu) { %>
+    <div class="baidu-analytics">
+      <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?<%= theme.external.analytics.baidu_id %>";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      </script>
+    </div>
+    <% } %>
+  </div>
+</footer>

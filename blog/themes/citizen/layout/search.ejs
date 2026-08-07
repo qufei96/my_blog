@@ -1,0 +1,60 @@
+<div class="main-content">
+  <div class="search-container">
+    <div class="search-box">
+      <input type="text" id="search-input" placeholder="输入关键词搜索..." value="<%= q %>">
+      <button id="search-button">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+
+    <% if (q) { %>
+      <div class="search-results">
+        <h2>搜索结果</h2>
+        <p>找到 <span id="search-count"><%= total || 0 %></span> 个相关结果</p>
+
+        <% if (posts && posts.length > 0) { %>
+          <% posts.each(function(post) { %>
+            <div class="search-result-item">
+              <h3>
+                <%- link_to(post.path, post.title) %>
+              </h3>
+              <div class="search-result-excerpt">
+                <% if (post.excerpt) { %>
+                  <%- highlight(post.excerpt, q) %>
+                <% } else { %>
+                  <%- highlight(post.content.substring(0, 200), q) %>
+                <% } %>
+              </div>
+              <div class="search-result-meta">
+                <span class="post-date">
+                  <i class="far fa-calendar-alt"></i>
+                  <%= date(post.date, 'YYYY年MM月DD日') %>
+                </span>
+                <% if (post.categories.length > 0) { %>
+                  <span class="post-category">
+                    <i class="far fa-folder"></i>
+                    <% post.categories.each(function(category) { %>
+                      <%- link_to(category.path, category.name) %>
+                    <% }); %>
+                  </span>
+                <% } %>
+              </div>
+            </div>
+          <% }); %>
+
+          <!-- Pagination -->
+          <%- partial('_partial/pagination') %>
+        <% } else { %>
+          <div class="no-search-results">
+            <i class="fas fa-search"></i>
+            <h3>没有找到相关结果</h3>
+            <p>尝试使用不同的关键词</p>
+          </div>
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<%- partial('_partial/sidebar') %>
