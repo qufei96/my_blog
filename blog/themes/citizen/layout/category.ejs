@@ -1,0 +1,62 @@
+<div class="main-content">
+  <h1 class="taxonomy-title">分类：<%= page.category %></h1>
+  <div class="posts-list">
+    <% if (page.posts.length > 0) { %>
+      <% page.posts.each(function(post) { %>
+        <article class="post-item">
+          <h2 class="post-title">
+            <%- link_to(post.path, post.title) %>
+          </h2>
+
+          <div class="post-meta">
+            <span class="post-date">
+              <i class="far fa-calendar-alt"></i>
+              <%= date(post.date, 'YYYY年MM月DD日') %>
+            </span>
+
+            <% if (post.categories.length > 0) { %>
+              <span class="post-category">
+                <i class="far fa-folder"></i>
+                <% post.categories.each(function(category) { %>
+                  <%- link_to(category.path, category.name) %>
+                <% }); %>
+              </span>
+            <% } %>
+
+            <% if (post.tags.length > 0) { %>
+              <span class="post-tags">
+                <i class="far fa-tags"></i>
+                <% post.tags.slice(0, 3).each(function(tag) { %>
+                  <%- link_to(tag.path, tag.name) %>
+                <% }); %>
+              </span>
+            <% } %>
+          </div>
+
+          <div class="post-excerpt">
+            <% if (post.excerpt) { %>
+              <%- post.excerpt %>
+            <% } else { %>
+              <%- post.content.substring(0, 200) %>...
+            <% } %>
+          </div>
+
+          <div class="post-read-more">
+            <%- link_to(post.path, '阅读全文 →') %>
+          </div>
+        </article>
+      <% }); %>
+
+      <!-- Pagination -->
+      <%- partial('_partial/pagination') %>
+    <% } else { %>
+      <div class="no-posts">
+        <h3>该分类暂无文章</h3>
+        <p>去写一篇吧！</p>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- Sidebar -->
+  <%- partial('_partial/sidebar') %>
+</div>

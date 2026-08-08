@@ -1,158 +1,121 @@
-// Client-side search functionality
+// 全站搜索：读取 hexo-generator-search 生成的 /search.xml，在客户端完成搜索
 document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('search-input');
-    const searchButton = document.getElementById('search-button');
-    const searchResults = document.querySelector('.search-results');
+  const searchInput = document.getElementById('search-page-input');
+  const searchButton = document.getElementById('search-page-button');
+  const searchResults = document.getElementById('search-results');
 
-    if (!searchInput) return;
+  if (!searchInput || !searchResults) return;
 
-    // Handle search button click
-    if (searchButton) {
-        searchButton.addEventListener('click', performSearch);
+  // 从 URL 读取 ?q= 并立即搜索（来自首页搜索框的跳转）
+  const params = new URLSearchParams(window.location.search);
+  const initialQuery = params.get('q');
+  if (initialQuery) {
+    searchInput.value = initialQuery;
+    doSearch(initialQuery);
+  }
+
+  if (searchButton) {
+    searchButton.addEventListener('click', () => doSearch(searchInput.value));
+  }
+  searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') doSearch(searchInput.value);
+  });
+
+  // 输入防抖
+  let timer;
+  searchInput.addEventListener('input', (e) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      if (e.target.value.trim().length >= 2) doSearch(e.target.value);
+    }, 400);
+  });
+
+  function doSearch(query) {
+    const q = query.trim();
+    if (q.length < 2) {
+      searchResults.innerHTML = '<div class="no-search-results"><p>请输入至少 2 个字符</p></div>';
+      return;
     }
 
-    // Handle Enter key
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            performSearch();
-        }
-    });
+    searchResults.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> 搜索中...</div>';
 
-    // Debounce search input
-    let searchTimeout;
-    searchInput.addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            if (e.target.value.length > 2) {
-                performSearch();
-            }
-        }, 500);
-    });
-
-    function performSearch() {
-        const query = searchInput.value.trim();
-        if (query.length < 2) return;
-
-        // Show loading state
-        if (searchResults) {
-            searchResults.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> 搜索中...</div>';
-        }
-
-        // Search in page content
-        searchInPage(query);
-    }
-
-    function searchInPage(query) {
+    fetch('/search.xml')
+      .then(res => {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.text();
+      })
+      .then(xmlText => {
+        const doc = new DOMParser().parseFromString(xmlText, 'text/xml');
+        const entries = doc.querySelectorAll('entry');
+        const keyword = q.toLowerCase();
         const results = [];
-        const searchQuery = new RegExp(query, 'gi');
 
-        // Search in titles
-        document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(title => {
-            if (searchQuery.test(title.textContent)) {
-                results.push({
-                    element: title,
-                    title: title.textContent,
-                    excerpt: getExcerpt(title),
-                    type: 'title'
-                });
-            }
+        entries.forEach(entry => {
+          const title = entry.querySelector('title').textContent || '';
+          const url = entry.querySelector('url').textContent || '';
+          const content = entry.querySelector('content').textContent || '';
+          const plainText = stripHtml(content);
+          if (title.toLowerCase().includes(keyword) || plainText.toLowerCase().includes(keyword)) {
+            results.push({ title, url, excerpt: getExcerpt(plainText, q, 120) });
+          }
         });
 
-        // Search in paragraphs
-        document.querySelectorAll('p').forEach(paragraph => {
-            if (searchQuery.test(paragraph.textContent)) {
-                results.push({
-                    element: paragraph,
-                    title: getHeading(paragraph),
-                    excerpt: highlightText(paragraph.textContent, query),
-                    type: 'content'
-                });
-            }
-        });
+        renderResults(results, q);
+      })
+      .catch(() => {
+        searchResults.innerHTML = '<div class="no-search-results"><p>搜索数据加载失败，请稍后重试</p></div>';
+      });
+  }
 
-        // Display results
-        displayResults(results, query);
+  function renderResults(results, query) {
+    if (results.length === 0) {
+      searchResults.innerHTML = `
+        <div class="no-search-results">
+          <h3>没有找到「${escapeHtml(query)}」相关的结果</h3>
+          <p>尝试换个关键词</p>
+        </div>`;
+      return;
     }
 
-    function getExcerpt(element) {
-        let text = '';
-        let current = element;
-        let count = 0;
+    searchResults.innerHTML = `
+      <h2>搜索结果</h2>
+      <p>找到 <span class="search-count">${results.length}</span> 个相关结果</p>
+      ${results.map(r => `
+        <div class="search-result-item">
+          <h3><a href="${r.url}">${escapeHtml(r.title)}</a></h3>
+          <div class="search-result-excerpt">${highlight(r.excerpt, query)}</div>
+        </div>
+      `).join('')}
+    `;
+  }
 
-        // Get text from current element and siblings
-        while (current && count < 100) {
-            text += current.textContent + ' ';
-            current = current.nextSibling;
-            count++;
-        }
+  function stripHtml(html) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || '';
+  }
 
-        return text.substring(0, 200);
-    }
+  function getExcerpt(text, keyword, length) {
+    const idx = text.toLowerCase().indexOf(keyword.toLowerCase());
+    if (idx === -1) return text.substring(0, length);
+    const start = Math.max(0, idx - length / 2);
+    return (start > 0 ? '…' : '') + text.substring(start, start + length) + (start + length < text.length ? '…' : '');
+  }
 
-    function getHeading(element) {
-        // Find the nearest heading
-        let current = element;
-        while (current && !/^h[1-6]$/i.test(current.tagName)) {
-            current = current.previousSibling;
-        }
+  function highlight(text, keyword) {
+    const escaped = escapeHtml(text);
+    return escaped.replace(new RegExp('(' + escapeRegExp(keyword) + ')', 'gi'), '<mark>$1</mark>');
+  }
 
-        return current ? current.textContent : '内容';
-    }
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
 
-    function highlightText(text, query) {
-        const regex = new RegExp(`(${query})`, 'gi');
-        return text.replace(regex, '<mark>$1</mark>');
-    }
-
-    function displayResults(results, query) {
-        if (!searchResults) return;
-
-        if (results.length === 0) {
-            searchResults.innerHTML = `
-                <div class="no-search-results">
-                    <i class="fas fa-search"></i>
-                    <h3>没有找到相关结果</h3>
-                    <p>尝试使用不同的关键词</p>
-                </div>
-            `;
-            return;
-        }
-
-        searchResults.innerHTML = `
-            <h2>搜索结果</h2>
-            <p>找到 <span class="search-count">${results.length}</span> 个相关结果</p>
-            <div class="search-results-list">
-                ${results.map(result => `
-                    <div class="search-result-item">
-                        <h3>
-                            ${highlightText(result.title, query)}
-                        </h3>
-                        <div class="search-result-excerpt">
-                            ${result.type === 'title' ? result.excerpt : highlightText(result.excerpt, query)}
-                        </div>
-                        <div class="search-result-meta">
-                            <span class="result-type">
-                                <i class="fas fa-${result.type === 'title' ? 'file-alt' : 'paragraph'}"></i>
-                                ${result.type === 'title' ? '标题' : '内容'}
-                            </span>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-
-        // Scroll to results
-        searchResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  function escapeRegExp(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
 });
-
-// Create manifest.json for PWA
-if (typeof window !== 'undefined') {
-    if (!document.getElementById('manifest')) {
-        const manifest = document.createElement('link');
-        manifest.rel = 'manifest';
-        manifest.href = '/manifest.json';
-        manifest.id = 'manifest';
-        document.head.appendChild(manifest);
-    }
-}

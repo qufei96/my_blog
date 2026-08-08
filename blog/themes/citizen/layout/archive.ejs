@@ -1,0 +1,27 @@
+<div class="main-content">
+  <h1 class="taxonomy-title">归档</h1>
+  <div class="archive">
+    <% var lastYear = null; %>
+    <% page.posts.sort('date', -1).each(function(post) { %>
+      <% var year = date(post.date, 'YYYY'); %>
+      <% if (year !== lastYear) { %>
+        <% if (lastYear !== null) { %>
+          </ul>
+        <% } %>
+        <h2 class="archive-year"><%= year %></h2>
+        <ul class="archive-list">
+        <% lastYear = year; %>
+      <% } %>
+      <li class="archive-item">
+        <span class="archive-date"><%= date(post.date, 'MM-DD') %></span>
+        <%- link_to(post.path, post.title) %>
+      </li>
+    <% }); %>
+    <% if (lastYear !== null) { %>
+      </ul>
+    <% } %>
+  </div>
+
+  <!-- Sidebar -->
+  <%- partial('_partial/sidebar') %>
+</div>

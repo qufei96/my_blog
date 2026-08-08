@@ -370,6 +370,10 @@ table
             &:hover
               color link
 
+          a.toc-sub
+            padding-left 1rem
+            font-size 0.95rem
+
   .post-footer
     margin-top 3rem
     padding-top 2rem
@@ -629,3 +633,115 @@ table
     .post-date
       color text-secondary
       font-size 0.9rem
+
+// Page（独立页面，如关于）
+.page
+  background-color white
+  border 1px solid border
+  border-radius 5px
+  padding 2rem
+  margin-bottom 2rem
+
+  .page-header
+    margin-bottom 2rem
+
+    .page-title
+      font-size 2rem
+      margin-bottom 1rem
+
+// 分类 / 标签 / 归档页标题
+.taxonomy-title
+  font-size 2rem
+  margin-bottom 2rem
+  padding-bottom 0.5rem
+  border-bottom 2px solid border
+
+// 归档页
+.archive
+  background-color white
+  border 1px solid border
+  border-radius 5px
+  padding 2rem
+
+  .archive-year
+    font-size 1.5rem
+    margin 1.5rem 0 1rem
+    color text-primary
+
+  .archive-list
+    list-style none
+    padding-left 0
+
+    .archive-item
+      padding 0.5rem 0
+      border-bottom 1px dashed rgba(201, 196, 184, 0.5)
+      display flex
+      gap 1rem
+      align-items baseline
+
+      a
+        color text-primary
+
+        &:hover
+          color link
+
+      .archive-date
+        color text-secondary
+        font-size 0.9rem
+        flex-shrink 0
+
+// 搜索页
+.search-container
+  h1
+    margin-bottom 1.5rem
+
+  .search-box
+    display flex
+    gap 0.5rem
+    margin-bottom 1rem
+
+    input
+      flex 1
+      padding 0.75rem 1rem
+      border 1px solid border
+      border-radius 5px
+      outline none
+      font-size 1rem
+
+      &:focus
+        border-color link
+
+    button
+      padding 0 1.25rem
+      border 1px solid border
+      border-radius 5px
+      background-color white
+      color text-secondary
+      cursor pointer
+      transition all 0.3s ease
+
+      &:hover
+        background-color link
+        color white
+        border-color link
+
+  .search-results
+    h2
+      font-size 1.5rem
+      margin-bottom 0.5rem
+
+    .search-count
+      color link
+
+  .loading
+    text-align center
+    padding 2rem
+    color text-secondary
+
+  .no-search-results
+    text-align center
+    padding 2rem
+    color text-secondary
+
+    h3
+      margin-bottom 0.5rem

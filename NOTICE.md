@@ -39,6 +39,16 @@
 - `! 命令` 会在当前会话终端执行，但**没有交互输入**（`/dev/tty` 不可用）
 - 需要交互的命令（如手动输用户名/密码、交互式登录）**无法**通过 `!` 完成，必须改用令牌等非交互方式
 
+### 4. PyCharm 使用提醒
+
+- **提交时新文件不会自动包含**：PyCharm 的 Commit 面板里，「未跟踪的新文件」（如新增的 `NOTICE.md`）默认不在提交列表，需要**手动勾选**，否则会漏提交（曾发生：提交信息写了「新增 NOTICE 文档」，实际 NOTICE.md 没提交进去）
+- **推送会卡住、无弹窗**：PyCharm 推送私有仓库时会尝试弹出 GitHub 登录窗口，但由于本机 GCM 失效，会**一直转圈无弹窗**。稳妥做法：在 PyCharm 里只做**提交（Commit）**，推送用终端：
+  ```
+  ! git push
+  ```
+- **`.idea/` 目录**：PyCharm 打开项目时自动生成，属本机 IDE 配置，已加入根 `.gitignore`，**不要提交**
+- 提交前在 Commit 面板确认文件清单，避免漏提交或误提交 IDE/缓存文件
+
 ---
 
 ## 二、Hexo 构建问题
@@ -93,7 +103,11 @@
 
 ## 四、待办（未完成项）
 
-- 主题目前只有 `index` / `post` / `search` 三个页面布局；`page` / `category` / `tag` / `archive` 布局待创建（分类/标签/归档页暂无法渲染）
-- 搜索功能未闭环：`main.js` 跳转 `/search/?q=...` 但无搜索页；`search.js` 只搜当前页 DOM，未消费 `search.xml`
 - 部署未配置（`_config.yml` 的 `deploy.type` 为空）；Waline 评论、百度/谷歌统计等外部服务待配置
-- 站点只有示例文章 `hello-world.md`，真实内容待写
+- 站点目前只有示例文章 `hello-world.md` 和示例「关于」页，真实内容待写
+
+## 五、已解决的坑与注意点
+
+- **文章目录（TOC）**：hexo-renderer-marked v7 不再生成 `page.toc`，目录已改为客户端方案——`main.js` 的 `buildToc` 从正文 `h2/h3` 构建 `#toc-list`，无标题时自动隐藏；不要再尝试用 `page.toc` 做服务端渲染
+- **hexo-server 中文 URL**：直接访问未编码的中文路径（如 `/categories/技术/`）会报 500（`URIError: URI malformed`）。浏览器会自动百分号编码，正常访问没问题；仅 curl/脚本直接发原始中文时触发，属 hexo-server 缺陷，静态部署不受影响
+- 分类/标签/归档/关于/搜索页面现已可用：`page`/`category`/`tag`/`archive` 布局模板在 `themes/citizen/layout/`；搜索为客户端搜索（`search.js` 读取 `/search.xml`）；关于页在 `source/about/index.md`

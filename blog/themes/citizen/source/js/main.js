@@ -137,3 +137,30 @@ document.addEventListener('click', (e) => {
         mainNav.classList.remove('active');
     }
 });
+
+// Build table of contents from post headings (client-side)
+(function buildToc() {
+    const tocList = document.getElementById('toc-list');
+    const postContent = document.querySelector('.post-content');
+    if (!tocList || !postContent) return;
+
+    const headings = postContent.querySelectorAll('h2, h3');
+    if (headings.length === 0) {
+        const toc = tocList.closest('.toc');
+        if (toc) toc.style.display = 'none';
+        return;
+    }
+
+    headings.forEach(h => {
+        if (!h.id) {
+            h.id = h.textContent.trim().toLowerCase().replace(/[^\w一-龥-]+/g, '-');
+        }
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        if (h.tagName === 'H3') a.classList.add('toc-sub');
+        li.appendChild(a);
+        tocList.appendChild(li);
+    });
+})();
