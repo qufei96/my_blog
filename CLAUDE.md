@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-「比奇堡热心市民」的个人博客，基于 Hexo 静态站点生成器，使用自定义主题 `citizen`（经典文学风格：暖色纸张背景、衬线字体、双栏响应式布局）。站点语言为中文（zh-CN）。设计规格与实现计划见 `docs/superpowers/`。
+「比奇堡热心市民」的个人博客，基于 Hexo 静态站点生成器，使用自定义主题 `citizen`（经典文学风格：暖色纸张背景、衬线字体、双栏响应式布局）。站点语言为中文（zh-CN）。设计规格与实现计划见 `docs/superpowers/`。开发与推送中遇到的坑及解决办法见 `NOTICE.md`（代理/令牌、Hexo 构建、YAML 陷阱等）。
 
 ## 常用命令
 
