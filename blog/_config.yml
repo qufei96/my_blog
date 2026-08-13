@@ -31,6 +31,11 @@ filename_case: 0
 render_drafts: false
 post_asset_folder: true
 relative_link: false
+
+# Markdown image asset resolution
+marked:
+  prependRoot: true
+  postAsset: true
 future: true
 highlight:
   enable: true
