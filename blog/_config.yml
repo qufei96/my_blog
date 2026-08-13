@@ -36,6 +36,7 @@ relative_link: false
 marked:
   prependRoot: true
   postAsset: true
+  lazyload: true
 future: true
 highlight:
   enable: true
