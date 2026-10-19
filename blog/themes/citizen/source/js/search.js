@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     searchResults.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> 搜索中...</div>';
 
-    fetch('/search.xml')
+    fetch(searchResults.dataset.indexUrl)
       .then(res => {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.text();

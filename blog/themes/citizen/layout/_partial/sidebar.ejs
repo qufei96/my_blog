@@ -70,19 +70,18 @@
           <li>
             <%- year %>年
             <ul class="monthly-archives">
-              <% yearlyArchives[year].reduce(function(monthlyArchives, post) { %>
-                <% var month = date(post.date, 'MM'); %>
-                <% var monthName = date(post.date, 'MMMM'); %>
-                <% if (!monthlyArchives[month]) { %>
-                  <% monthlyArchives[month] = []; %>
-                  <li>
-                    <%- link_to(post.path, monthName) %>
-                    <span class="post-count">(<%= monthlyArchives[month].length %>)</span>
-                  </li>
-                <% } %>
-                <% monthlyArchives[month].push(post); %>
-                <% return monthlyArchives; %>
-              <% }, {}); %>
+              <% var monthlyArchives = yearlyArchives[year].reduce(function(months, post) {
+                var month = date(post.date, 'MM');
+                if (!months[month]) months[month] = [];
+                months[month].push(post);
+                return months;
+              }, {}); %>
+              <% Object.keys(monthlyArchives).sort().reverse().forEach(function(month) { %>
+                <li>
+                  <%- link_to(config.archive_dir + '/' + year + '/' + month + '/', date(monthlyArchives[month][0].date, 'MMMM')) %>
+                  <span class="post-count">(<%= monthlyArchives[month].length %>)</span>
+                </li>
+              <% }); %>
             </ul>
           </li>
         <% }); %>

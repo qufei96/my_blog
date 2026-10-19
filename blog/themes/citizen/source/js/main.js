@@ -8,12 +8,16 @@ if (menuToggle && mainNav) {
     });
 }
 
-// Search Box Toggle
+// Search button submits a query, or opens the input on mobile.
 const searchButton = document.getElementById('search-button');
 const searchBox = document.querySelector('.search-box');
 
 if (searchButton && searchBox) {
     searchButton.addEventListener('click', () => {
+        if (document.getElementById('search-input').value.trim()) {
+            performSearch();
+            return;
+        }
         searchBox.classList.toggle('active');
         if (searchBox.classList.contains('active')) {
             document.getElementById('search-input').focus();
@@ -32,11 +36,10 @@ if (searchInput) {
 }
 
 function performSearch() {
-    const query = document.getElementById('search-input').value.trim();
+    const input = document.getElementById('search-input');
+    const query = input.value.trim();
     if (query) {
-        // This will be implemented with hexo-generator-search
-        // For now, just redirect to search page
-        window.location.href = '/search/?q=' + encodeURIComponent(query);
+        window.location.href = input.dataset.searchUrl + '?q=' + encodeURIComponent(query);
     }
 }
 
@@ -64,7 +67,7 @@ if (backToTop) {
 document.querySelectorAll('.share-buttons a').forEach(button => {
     button.addEventListener('click', (e) => {
         e.preventDefault();
-        const platform = button.classList[1]; // e.g., share-weibo, share-wechat
+        const platform = Array.from(button.classList).find(name => name.startsWith('share-'));
         handleShare(platform, window.location.href);
     });
 });
@@ -79,8 +82,11 @@ function handleShare(platform, url) {
         case 'share-wechat':
             // WeChat sharing typically uses QR code or native app
             // For now, just copy to clipboard
-            copyToClipboard(url);
-            alert('链接已复制到剪贴板，请在微信中粘贴分享');
+            copyToClipboard(url).then(() => {
+                alert('链接已复制到剪贴板，请在微信中粘贴分享');
+            }).catch(() => {
+                window.prompt('请复制链接后在微信中分享', url);
+            });
             return;
         case 'share-twitter':
             shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(document.title)}`;
@@ -95,18 +101,30 @@ function handleShare(platform, url) {
     }
 }
 
-function copyToClipboard(text) {
+async function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+            await navigator.clipboard.writeText(text);
+            return;
+        } catch (_) {
+            // Fall back when clipboard permission is unavailable.
+        }
+    }
     const textarea = document.createElement('textarea');
     textarea.value = text;
     document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
+    try {
+        textarea.select();
+        if (!document.execCommand('copy')) throw new Error('Copy failed');
+    } finally {
+        document.body.removeChild(textarea);
+    }
 }
 
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
+        if (this.getAttribute('href') === '#') return;
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {

@@ -82,6 +82,9 @@
   <!-- JavaScript（主题 source/js/*.js 由 Hexo 复制到 public/js/） -->
   <script src="<%- url_for('/js/main.js') %>"></script>
   <script src="<%- url_for('/js/responsive.js') %>"></script>
+  <% if (page.layout === 'search') { %>
+  <script src="<%- url_for('/js/search.js') %>"></script>
+  <% } %>
 
   <!-- Analytics -->
   <% if (theme.external.analytics.enable_baidu) { %>

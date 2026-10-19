@@ -22,7 +22,7 @@
     <div class="nav-tools">
       <% if (theme.custom.header.enable_search) { %>
         <div class="search-box">
-          <input type="text" id="search-input" placeholder="搜索文章...">
+          <input type="text" id="search-input" data-search-url="<%= url_for('/search/') %>" placeholder="搜索文章...">
           <button id="search-button">
             <i class="fas fa-search"></i>
           </button>
